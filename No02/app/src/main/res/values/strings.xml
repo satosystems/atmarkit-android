@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">No02</string>
+    <string name="app_name">"@IT No02"</string>
+    <string name="add_fragment">Add Fragment</string>
+    <string name="remove_fragment">Remove Fragment</string>
 </resources>
