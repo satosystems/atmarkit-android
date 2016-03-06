@@ -2,4 +2,6 @@
     <string name="app_name">"@IT No02"</string>
     <string name="add_fragment">Add Fragment</string>
     <string name="remove_fragment">Remove Fragment</string>
+    <string name="add_view">Add View</string>
+    <string name="remove_view">Remove View</string>
 </resources>

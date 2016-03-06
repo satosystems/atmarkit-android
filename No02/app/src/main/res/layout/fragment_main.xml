@@ -4,10 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.atmarkit.no02.MainFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="?android:textAppearanceLarge" />
+    <include layout="@layout/custom_text_view"
+        android:id="@+id/textView" />
 
 </FrameLayout>

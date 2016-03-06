@@ -26,13 +26,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_LOG = MainActivity.class.getPackage().getName() + ".ACTION_LOG";
     public static final String KEY_LOG = "KEY_LOG";
 
-    private static class StringListAdapter extends BaseAdapter {
-        private final LayoutInflater mInflater;
-        private final List<String> mList = new ArrayList<>();
+    private LayoutInflater mInflater;
 
-        private StringListAdapter(Context context) {
-            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+    private class StringListAdapter extends BaseAdapter {
+        private final List<String> mList = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -83,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new StringListAdapter(getBaseContext()));
+        listView.setAdapter(new StringListAdapter());
         registerReceiver(mReceiver, new IntentFilter(ACTION_LOG));
         addLog("Activity#onCreate");
     }
@@ -152,19 +150,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAddFragment(View view) {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
-        int count = layout.getChildCount();
-        MainFragment fragment = MainFragment.newInstance(count);
+        int number = getContentNumber();
+        MainFragment fragment = MainFragment.newInstance(number);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.linearLayout, fragment);
-        transaction.addToBackStack(String.valueOf(count));
+        transaction.addToBackStack(String.valueOf(number));
         transaction.commit();
     }
 
     public void onClickRemoveFragment(View view) {
         FragmentManager manager = getSupportFragmentManager();
         manager.popBackStack();
+    }
+
+    public void onClickAddView(View view) {
+        int number = getContentNumber();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
+
+        TextView textView = (TextView) mInflater.inflate(R.layout.custom_text_view, null);
+        textView.setText(String.valueOf(number));
+        layout.addView(textView);
+    }
+
+    public void onClickRemoveView(View view) {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
+        int count = layout.getChildCount();
+        for (int i = count - 1; i >= 0; i--) {
+            View child = layout.getChildAt(i);
+            if (child instanceof TextView) {
+                layout.removeView(child);
+                break;
+            }
+        }
+    }
+
+    private int getContentNumber() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
+        Object tag = layout.getTag();
+        if (tag == null) {
+            layout.setTag(0);
+            return 0;
+        }
+        int number = (Integer) tag;
+        number++;
+        layout.setTag(number);
+        return number;
     }
 
     public void addLog(String log) {
