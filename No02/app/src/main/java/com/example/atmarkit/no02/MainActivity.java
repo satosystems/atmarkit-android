@@ -8,22 +8,43 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import static com.example.atmarkit.no02.MainApplication.TAG;
 
 public class MainActivity extends AppCompatActivity {
     private static final String PREFIX = MainActivity.class.getPackage().getName() + ":";
     private static final String KEY_NUMBER = PREFIX + "NUMBER";
+    private static final String KEY_SCROLL_Y = PREFIX + "SCROLL_Y";
+    private static final String KEY_TEXT_VIEWS = PREFIX + "TEXT_VIEWS";
     private Bundle mState = new Bundle();
+    private ScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Activity#onCreate");
+        Log.d(TAG, "Activity#onCreate:" + savedInstanceState);
         setContentView(R.layout.activity_main);
-        restoreInstanceState(savedInstanceState);
+        mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                mState.putInt(KEY_SCROLL_Y, mScrollView.getScrollY());
+            }
+        });
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            if (extras != null && extras.size() != 0) {
+                mState.putAll(extras);
+            }
+        }
     }
 
     @Override
@@ -48,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "Activity#onPause");
+        ArrayList<String> list = new ArrayList<>();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
+        int count = layout.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = layout.getChildAt(i);
+            if (child instanceof TextView) {
+                TextView textView = (TextView) child;
+                list.add(textView.getText().toString());
+            }
+        }
+        mState.putStringArrayList(KEY_TEXT_VIEWS, list);
     }
 
     @Override
@@ -84,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResumeFragments() {
         super.onResumeFragments();
         Log.d(TAG, "Activity#onResumeFragments");
+
+        int scrollY = mState.getInt(KEY_SCROLL_Y);
+        mScrollView.scrollTo(0, scrollY);
     }
 
     @Override
@@ -96,14 +131,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "Activity#onRestoreInstanceState");
-        restoreInstanceState(savedInstanceState);
+        Log.d(TAG, "Activity#onRestoreInstanceState:" + savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Bundle bundle = new Bundle(savedInstanceState);
+            for (String key : savedInstanceState.keySet()) {
+                if (!key.startsWith(PREFIX)) {
+                    bundle.remove(key);
+                }
+            }
+            mState.putAll(bundle);
+        }
+
+        ArrayList<String> list = mState.getStringArrayList(KEY_TEXT_VIEWS);
+        if (list != null) {
+            for (String text : list) {
+                addTextView(String.valueOf(text));
+            }
+            mState.remove(KEY_TEXT_VIEWS);
+        }
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Log.d(TAG, "Activity#onPostCreate");
+        Log.d(TAG, "Activity#onPostCreate:" + savedInstanceState);
     }
 
     public void onClickAddFragment(View view) {
@@ -123,12 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickAddView(View view) {
         int number = getContentNumber();
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
-
-        TextView textView = new TextView(getBaseContext());
-        textView.setTextSize(24);
-        textView.setText(String.valueOf(number));
-        layout.addView(textView);
+        addTextView(String.valueOf(number));
     }
 
     public void onClickRemoveView(View view) {
@@ -141,6 +188,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    private void addTextView(String text) {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
+        TextView textView = new TextView(getBaseContext());
+        textView.setTextSize(24);
+        textView.setText(String.valueOf(text));
+        layout.addView(textView);
     }
 
     private int getContentNumber() {
@@ -171,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dumpBundle(Bundle bundle) {
-        for (String key : mState.keySet()) {
-            Log.d(TAG, "　" + key + "=" + mState.get(key));
+        for (String key : bundle.keySet()) {
+            Log.d(TAG, "　" + key + "=" + bundle.get(key));
         }
     }
 }
