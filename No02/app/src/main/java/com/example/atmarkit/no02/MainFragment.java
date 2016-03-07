@@ -33,7 +33,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Fragment#onCreate:" + savedInstanceState);
+        Log.d(TAG, "Fragment#onCreate: " + savedInstanceState);
     }
 
     @Override
@@ -51,13 +51,13 @@ public class MainFragment extends Fragment {
     @Override
     public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(context, attrs, savedInstanceState);
-        Log.d(TAG, "Fragment#onInflate:" + savedInstanceState);
+        Log.d(TAG, "Fragment#onInflate: " + savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "Fragment#onViewCreated:" + savedInstanceState);
+        Log.d(TAG, "Fragment#onViewCreated: " + savedInstanceState);
 
         if (savedInstanceState != null) {
             Bundle bundle = new Bundle(savedInstanceState);
@@ -125,13 +125,13 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "Fragment#onActivityCreated:" + savedInstanceState);
+        Log.d(TAG, "Fragment#onActivityCreated: " + savedInstanceState);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.d(TAG, "Fragment#onViewStateRestored:" + savedInstanceState);
+        Log.d(TAG, "Fragment#onViewStateRestored: " + savedInstanceState);
     }
 
     @Override

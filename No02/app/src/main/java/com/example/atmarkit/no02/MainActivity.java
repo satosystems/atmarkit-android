@@ -1,6 +1,5 @@
 package com.example.atmarkit.no02;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Activity#onCreate:" + savedInstanceState);
+        Log.d(TAG, "Activity#onCreate: " + savedInstanceState);
         setContentView(R.layout.activity_main);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -40,14 +39,6 @@ public class MainActivity extends AppCompatActivity {
                 mState.putInt(KEY_SCROLL_Y, mScrollView.getScrollY());
             }
         });
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null && extras.size() != 0) {
-                mState.putAll(extras);
-            }
-        }
     }
 
     @Override
@@ -134,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "Activity#onRestoreInstanceState:" + savedInstanceState);
+        Log.d(TAG, "Activity#onRestoreInstanceState: " + savedInstanceState);
 
         if (savedInstanceState != null) {
             Bundle bundle = new Bundle(savedInstanceState);
@@ -153,13 +144,12 @@ public class MainActivity extends AppCompatActivity {
             }
             mState.remove(KEY_TEXT_VIEWS);
         }
-        dumpBundle(mState);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Log.d(TAG, "Activity#onPostCreate:" + savedInstanceState);
+        Log.d(TAG, "Activity#onPostCreate: " + savedInstanceState);
     }
 
     public void onClickAddFragment(View view) {
@@ -208,11 +198,5 @@ public class MainActivity extends AppCompatActivity {
         number++;
         mState.putInt(KEY_NUMBER, number);
         return number;
-    }
-
-    private void dumpBundle(Bundle bundle) {
-        for (String key : bundle.keySet()) {
-            Log.d(TAG, "　" + key + "=" + bundle.get(key));
-        }
     }
 }
