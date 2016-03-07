@@ -149,6 +149,24 @@ public class MainActivity extends AppCompatActivity {
         addLog("Activity#onResumeFragments");
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        addLog("Activity#onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        addLog("Activity#onRestoreInstanceState");
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        addLog("Activity#onPostCreate");
+    }
+
     public void onClickAddFragment(View view) {
         int number = getContentNumber();
         MainFragment fragment = MainFragment.newInstance(number);
