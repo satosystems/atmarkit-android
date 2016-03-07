@@ -1,19 +1,26 @@
 package com.example.atmarkit.no02;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import static com.example.atmarkit.no02.MainApplication.TAG;
 
 public class MainFragment extends Fragment {
+    private static final String PREFIX = MainActivity.class.getPackage().getName() + ":";
+    private static final String KEY_TEXT = PREFIX + "TEXT";
     private static final String PARAM_NUMBER = "number";
+    private final Bundle mState = new Bundle();
 
     public static MainFragment newInstance(int number) {
         MainFragment fragment = new MainFragment();
@@ -26,7 +33,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "Fragment#onCreate");
+        Log.d(TAG, "Fragment#onCreate:" + savedInstanceState);
     }
 
     @Override
@@ -38,11 +45,39 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "Fragment#onCreateView");
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        int number = getArguments().getInt(PARAM_NUMBER);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+        Log.d(TAG, "Fragment#onInflate:" + savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "Fragment#onViewCreated:" + savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Bundle bundle = new Bundle(savedInstanceState);
+            for (String key : savedInstanceState.keySet()) {
+                if (!key.startsWith(PREFIX)) {
+                    bundle.remove(key);
+                }
+            }
+            mState.putAll(bundle);
+        }
+
         TextView textView = (TextView) view.findViewById(R.id.textView);
-        textView.setText(String.valueOf(number));
-        return view;
+        String text = mState.getString(KEY_TEXT);
+        if (text == null) {
+            String number = String.format("%1$03d", getArguments().getInt(PARAM_NUMBER));
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+            text = number + " " + sdf.format(new Date());
+            mState.putString(KEY_TEXT, text);
+        }
+        textView.setText(text);
     }
 
     @Override
@@ -90,12 +125,19 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "Fragment#onActivityCreated");
+        Log.d(TAG, "Fragment#onActivityCreated:" + savedInstanceState);
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.d(TAG, "Fragment#onViewStateRestored");
+        Log.d(TAG, "Fragment#onViewStateRestored:" + savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "Fragment#onSaveInstanceState");
+        outState.putAll(mState);
     }
 }

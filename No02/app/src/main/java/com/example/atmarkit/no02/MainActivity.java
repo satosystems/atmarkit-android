@@ -13,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.example.atmarkit.no02.MainApplication.TAG;
 
@@ -150,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
             mState.remove(KEY_TEXT_VIEWS);
         }
+        dumpBundle(mState);
     }
 
     @Override
@@ -174,8 +178,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAddView(View view) {
-        int number = getContentNumber();
-        addTextView(String.valueOf(number));
+        String number = String.format("%1$03d", getContentNumber());
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:MM:ss.SSS", Locale.getDefault());
+        addTextView(number + " " + sdf.format(new Date()));
     }
 
     public void onClickRemoveView(View view) {
@@ -203,26 +208,6 @@ public class MainActivity extends AppCompatActivity {
         number++;
         mState.putInt(KEY_NUMBER, number);
         return number;
-    }
-
-    private void restoreInstanceState(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null && extras.size() != 0) {
-                mState.putAll(extras);
-            }
-        }
-        if (savedInstanceState != null) {
-            Bundle bundle = new Bundle(savedInstanceState);
-            for (String key : savedInstanceState.keySet()) {
-                if (!key.startsWith(PREFIX)) {
-                    bundle.remove(key);
-                }
-            }
-            mState.putAll(bundle);
-        }
-        dumpBundle(mState);
     }
 
     private void dumpBundle(Bundle bundle) {
