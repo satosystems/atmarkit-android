@@ -5,7 +5,7 @@ import android.content.res.Configuration;
 import android.util.Log;
 
 public class MainApplication extends Application {
-    private static final String TAG = "@IT";
+    public static final String TAG = "@IT";
 
     @Override
     public void onCreate() {

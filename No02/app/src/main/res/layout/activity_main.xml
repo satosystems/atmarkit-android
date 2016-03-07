@@ -5,18 +5,21 @@
     android:orientation="vertical"
     tools:context="com.example.atmarkit.no02.MainActivity">
 
-    <ListView
-        android:id="@+id/listView"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@android:color/holo_orange_light" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:orientation="vertical" />
+
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

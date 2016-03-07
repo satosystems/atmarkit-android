@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import static com.example.atmarkit.no02.MainApplication.TAG;
 
 public class MainFragment extends Fragment {
     private static final String PARAM_NUMBER = "number";
@@ -23,18 +26,18 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addLog("Fragment#onCreate");
+        Log.d(TAG, "Fragment#onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        addLog("Fragment#onDestroy");
+        Log.d(TAG, "Fragment#onDestroy");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        addLog("Fragment#onCreateView");
+        Log.d(TAG, "Fragment#onCreateView");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         int number = getArguments().getInt(PARAM_NUMBER);
         TextView textView = (TextView) view.findViewById(R.id.textView);
@@ -45,60 +48,54 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        addLog("Fragment#onDestroyView");
+        Log.d(TAG, "Fragment#onDestroyView");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        addLog("Fragment#onAttach");
+        Log.d(TAG, "Fragment#onAttach");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        addLog("Fragment#onDetach");
+        Log.d(TAG, "Fragment#onDetach");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        addLog("Fragment#onStart");
+        Log.d(TAG, "Fragment#onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        addLog("Fragment#onResume");
+        Log.d(TAG, "Fragment#onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        addLog("Fragment#onPause");
+        Log.d(TAG, "Fragment#onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        addLog("Fragment#onStop");
+        Log.d(TAG, "Fragment#onStop");
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        addLog("Fragment#onActivityCreated");
+        Log.d(TAG, "Fragment#onActivityCreated");
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        addLog("Fragment#onViewStateRestored");
-    }
-
-    private void addLog(String log) {
-        Intent intent = new Intent(MainActivity.ACTION_LOG);
-        intent.putExtra(MainActivity.KEY_LOG, log);
-        getContext().sendBroadcast(intent);
+        Log.d(TAG, "Fragment#onViewStateRestored");
     }
 }
