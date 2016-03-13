@@ -102,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "Activity#onPause");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "Activity#onSaveInstanceState");
         ArrayList<String> list = new ArrayList<>();
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
         int count = layout.getChildCount();
@@ -113,12 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mState.putStringArrayList(KEY_TEXT_VIEWS, list);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Activity#onSaveInstanceState");
         outState.putAll(mState);
     }
 
