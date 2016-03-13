@@ -31,6 +31,12 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+        Log.d(TAG, "Fragment#onInflate: " + savedInstanceState);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "Fragment#onAttach");
@@ -65,7 +71,7 @@ public class MainFragment extends Fragment {
 
         TextView textView = (TextView) view.findViewById(R.id.textView);
         String text = mState.getString(KEY_TEXT);
-        if (text == null) {
+        if (text == null && getArguments() != null) {
             String number = String.format("[%1$03d]", getArguments().getInt(PARAM_NUMBER));
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.SSS", Locale.getDefault());
             text = number + " " + sdf.format(new Date()) + " Fragment";
@@ -133,11 +139,5 @@ public class MainFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "Fragment#onDetach");
-    }
-
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        super.onInflate(context, attrs, savedInstanceState);
-        Log.d(TAG, "Fragment#onInflate: " + savedInstanceState);
     }
 }
