@@ -72,9 +72,9 @@ public class MainFragment extends Fragment {
         TextView textView = (TextView) view.findViewById(R.id.textView);
         String text = mState.getString(KEY_TEXT);
         if (text == null) {
-            String number = String.format("%1$03d", getArguments().getInt(PARAM_NUMBER));
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
-            text = number + " " + sdf.format(new Date());
+            String number = String.format("[%1$03d]", getArguments().getInt(PARAM_NUMBER));
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.SSS", Locale.getDefault());
+            text = number + " " + sdf.format(new Date()) + " Fragment";
             mState.putString(KEY_TEXT, text);
         }
         textView.setText(text);

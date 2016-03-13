@@ -168,9 +168,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAddView(View view) {
-        String number = String.format("%1$03d", getContentNumber());
+        String number = String.format("[%1$03d]", getContentNumber());
         SimpleDateFormat sdf = new SimpleDateFormat("hh:MM:ss.SSS", Locale.getDefault());
-        addTextView(number + " " + sdf.format(new Date()));
+        addTextView(number + " " + sdf.format(new Date()) + " View");
     }
 
     public void onClickRemoveView(View view) {
