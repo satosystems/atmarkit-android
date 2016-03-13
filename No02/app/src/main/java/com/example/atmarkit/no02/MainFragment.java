@@ -31,27 +31,21 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "Fragment#onAttach");
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "Fragment#onCreate: " + savedInstanceState);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "Fragment#onDestroy");
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "Fragment#onCreateView");
         return inflater.inflate(R.layout.fragment_main, container, false);
-    }
-
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        super.onInflate(context, attrs, savedInstanceState);
-        Log.d(TAG, "Fragment#onInflate: " + savedInstanceState);
     }
 
     @Override
@@ -81,21 +75,15 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(TAG, "Fragment#onDestroyView");
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "Fragment#onActivityCreated: " + savedInstanceState);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "Fragment#onAttach");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d(TAG, "Fragment#onDetach");
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d(TAG, "Fragment#onViewStateRestored: " + savedInstanceState);
     }
 
     @Override
@@ -117,27 +105,39 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "Fragment#onSaveInstanceState");
+        outState.putAll(mState);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "Fragment#onStop");
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "Fragment#onActivityCreated: " + savedInstanceState);
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "Fragment#onDestroyView");
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        Log.d(TAG, "Fragment#onViewStateRestored: " + savedInstanceState);
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Fragment#onDestroy");
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Fragment#onSaveInstanceState");
-        outState.putAll(mState);
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "Fragment#onDetach");
+    }
+
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+        Log.d(TAG, "Fragment#onInflate: " + savedInstanceState);
     }
 }

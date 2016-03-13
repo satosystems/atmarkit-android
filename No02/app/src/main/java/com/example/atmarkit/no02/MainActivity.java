@@ -42,21 +42,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "Activity#onStart");
-    }
-
-    @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "Activity#onRestart");
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "Activity#onStart");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "Activity#onRestoreInstanceState: " + savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Bundle bundle = new Bundle(savedInstanceState);
+            for (String key : savedInstanceState.keySet()) {
+                if (!key.startsWith(PREFIX)) {
+                    bundle.remove(key);
+                }
+            }
+            mState.putAll(bundle);
+        }
+
+        ArrayList<String> list = mState.getStringArrayList(KEY_TEXT_VIEWS);
+        if (list != null) {
+            for (String text : list) {
+                addTextView(String.valueOf(text));
+            }
+            mState.remove(KEY_TEXT_VIEWS);
+        }
+
+        int scrollY = mState.getInt(KEY_SCROLL_Y);
+        mScrollView.scrollTo(0, scrollY);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        Log.d(TAG, "Activity#onPostCreate: " + savedInstanceState);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "Activity#onResume");
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        Log.d(TAG, "Activity#onResumeFragments");
     }
 
     @Override
@@ -74,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mState.putStringArrayList(KEY_TEXT_VIEWS, list);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "Activity#onSaveInstanceState");
+        outState.putAll(mState);
     }
 
     @Override
@@ -104,52 +150,6 @@ public class MainActivity extends AppCompatActivity {
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         Log.d(TAG, "Activity#onAttachFragment");
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        Log.d(TAG, "Activity#onResumeFragments");
-
-        int scrollY = mState.getInt(KEY_SCROLL_Y);
-        mScrollView.scrollTo(0, scrollY);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Activity#onSaveInstanceState");
-        outState.putAll(mState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "Activity#onRestoreInstanceState: " + savedInstanceState);
-
-        if (savedInstanceState != null) {
-            Bundle bundle = new Bundle(savedInstanceState);
-            for (String key : savedInstanceState.keySet()) {
-                if (!key.startsWith(PREFIX)) {
-                    bundle.remove(key);
-                }
-            }
-            mState.putAll(bundle);
-        }
-
-        ArrayList<String> list = mState.getStringArrayList(KEY_TEXT_VIEWS);
-        if (list != null) {
-            for (String text : list) {
-                addTextView(String.valueOf(text));
-            }
-            mState.remove(KEY_TEXT_VIEWS);
-        }
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        Log.d(TAG, "Activity#onPostCreate: " + savedInstanceState);
     }
 
     public void onClickAddFragment(View view) {
