@@ -28,15 +28,15 @@ public class CustomTextView extends TextView {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d(TAG, "View#onMeasure");
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.d(TAG, "View#onAttachedToWindow");
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        Log.d(TAG, "View#onLayout");
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d(TAG, "View#onMeasure");
     }
 
     @Override
@@ -46,15 +46,15 @@ public class CustomTextView extends TextView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        Log.d(TAG, "View#onDraw");
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        Log.d(TAG, "View#onLayout");
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        Log.d(TAG, "View#onAttachedToWindow");
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        Log.d(TAG, "View#onDraw");
     }
 
     @Override
@@ -66,6 +66,6 @@ public class CustomTextView extends TextView {
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        Log.d(TAG, "View#onWindowVisibilityChanged");
+        Log.d(TAG, "View#onWindowVisibilityChanged: " + visibility);
     }
 }

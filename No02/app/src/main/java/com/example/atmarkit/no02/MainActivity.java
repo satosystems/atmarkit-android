@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addTextView(String text) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout);
-        TextView textView = new TextView(getBaseContext());
+        CustomTextView textView = new CustomTextView(getBaseContext());
         textView.setTextSize(24);
         textView.setText(String.valueOf(text));
         layout.addView(textView);
