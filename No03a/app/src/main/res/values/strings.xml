@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">No03a</string>
+    <string name="app_name">No03a Process Killer</string>
+    <string name="kill_processes">Kill processes</string>
 </resources>
